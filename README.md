@@ -24,7 +24,13 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+GraphQL with NestJS
+
+## Info
+- Language: Typescript
+- Framework: NestJS, apollo-server-fastify
+- Database: mysql
+- ORM: TypeORM
 
 ## Installation
 
