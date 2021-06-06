@@ -7,7 +7,9 @@ import { GraphQLModule } from "@nestjs/graphql";
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
-    GraphQLModule.forRoot({}),
+    GraphQLModule.forRoot({
+      autoSchemaFile: true
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
