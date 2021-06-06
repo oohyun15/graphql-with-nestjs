@@ -9,7 +9,7 @@ import { RecipesModule } from './recipes/recipes.module';
     TypeOrmModule.forRoot(),
     GraphQLModule.forRoot({
       installSubscriptionHandlers: true,
-      autoSchemaFile: true,
+      autoSchemaFile: 'schema.gql',
     }),
   ],
 })
