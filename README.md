@@ -49,6 +49,24 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# create ormconfig.json
+```json
+{
+  "type": "mysql",
+  "host": "localhost",
+  "port": 3306,
+  "username": "", // your user name
+  "password": "", // your password
+  "database": "", // your db name
+  "entities": [
+    "dist/**/*.entity.js"
+  ]
+}
+```
+
+# Database migration
+$ typeorm migration:run
 ```
 
 ## Graphql
