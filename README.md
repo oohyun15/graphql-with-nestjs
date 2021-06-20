@@ -50,6 +50,10 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 
+# Database migration
+$ typeorm migration:run
+```
+
 # create ormconfig.json
 ```json
 {
@@ -63,10 +67,6 @@ $ npm run start:prod
     "dist/**/*.entity.js"
   ]
 }
-```
-
-# Database migration
-$ typeorm migration:run
 ```
 
 ## Graphql
