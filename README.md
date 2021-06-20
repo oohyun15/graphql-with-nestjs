@@ -28,9 +28,9 @@ GraphQL with NestJS
 
 ## Info
 - Language: Typescript
-- Framework: NestJS, apollo-server-fastify
+- Framework: NestJS, apollo-server-fastify [doc](https://github.com/nestjs/nest/tree/master/sample/23-graphql-code-first)
 - Database: mysql
-- ORM: TypeORM
+- ORM: TypeORM [doc](https://github.com/nestjs/nest/tree/master/sample/05-sql-typeorm)
 
 ## Installation
 
