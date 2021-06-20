@@ -51,6 +51,59 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Graphql
+if you use graphql playground, [click here](http://localhost:3000/graphql)
+
+### Query
+```graphql
+query recipes ($skip: Int, $take: Int) {
+    recipes (skip: $skip, take: $take) {
+        id
+        title
+        description
+        creationDate
+        ingredients
+    }
+}
+```
+
+### Mutation
+```graphql
+mutation addRecipe ($newRecipeData: NewRecipeInput!) {
+    addRecipe (newRecipeData: $newRecipeData) {
+        id
+        title
+        description
+        creationDate
+        ingredients
+    }
+}
+{
+  "newRecipeData": {
+    "title": "",
+    "description": "",
+    "ingredients": [
+      ""
+    ]
+  }
+}
+
+```
+
+### Subscriptionn
+```graphql
+subscription recipeAdded {
+    recipeAdded {
+        id
+        title
+        description
+        creationDate
+        ingredients
+    }
+}
+```
+
+
 ## Test
 
 ```bash
