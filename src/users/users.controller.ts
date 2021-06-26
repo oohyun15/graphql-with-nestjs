@@ -5,7 +5,7 @@ import { UsersService } from "./users.service";
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto): Promise<User> {
@@ -23,7 +23,11 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.usersService.remove(id);
+  async remove(@Param('id') id: string): Promise<string> {
+    const user = await this.usersService.findOne(id);
+    if (user === undefined) return `There is no user. (id: ${id})`;
+    this.usersService.remove(id);
+    const fullName = user.firstName + ' ' + user.lastName
+    return `User: ${fullName} is deleted.`;
   }
 }
