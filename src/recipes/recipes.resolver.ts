@@ -34,7 +34,7 @@ export class RecipesResolver {
 
   @Mutation(returns => Boolean)
   async removeRecipe(@Args('id') id: string) {
-    return this.recipesService.remove(id);
+    return (await this.recipesService.remove(id)).affected;
   }
 
   @Subscription(returns => Recipe)
