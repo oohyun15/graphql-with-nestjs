@@ -14,9 +14,7 @@ export class RecipesResolver {
   @Query(returns => Recipe)
   async recipe(@Args('id') id: string): Promise<Recipe> {
     const recipe = await this.recipesService.findOneById(id);
-    if (!recipe) {
-      throw new NotFoundException(id);
-    }
+    if (!recipe) throw new NotFoundException(id);
     return recipe;
   }
 

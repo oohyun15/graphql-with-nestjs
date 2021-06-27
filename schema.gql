@@ -13,14 +13,30 @@ type Recipe {
 """Date custom scalar type"""
 scalar Date
 
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  isActive: Boolean!
+}
+
 type Query {
+  user(id: String!): User!
+  users: [User!]!
   recipe(id: String!): Recipe!
   recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
 }
 
 type Mutation {
+  addUser(createUserDto: CreateUserDto!): User!
+  removeUser(id: String!): Boolean!
   addRecipe(newRecipeData: NewRecipeInput!): Recipe!
   removeRecipe(id: String!): Boolean!
+}
+
+input CreateUserDto {
+  firstName: String!
+  lastName: String!
 }
 
 input NewRecipeInput {
@@ -30,5 +46,6 @@ input NewRecipeInput {
 }
 
 type Subscription {
+  userAdded: User!
   recipeAdded: Recipe!
 }
