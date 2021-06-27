@@ -6,8 +6,8 @@ type Recipe {
   id: ID!
   title: String!
   description: String
-  creationDate: Date!
-  ingredients: [String!]!
+  createdAt: Date!
+  ingredients: String!
 }
 
 """Date custom scalar type"""
@@ -26,7 +26,7 @@ type Mutation {
 input NewRecipeInput {
   title: String!
   description: String
-  ingredients: [String!]!
+  ingredients: String!
 }
 
 type Subscription {

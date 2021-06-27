@@ -1,19 +1,26 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity()
 @ObjectType()
 export class Recipe {
   @Field(type => ID)
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Field()
+  @Column()
   title: string;
 
   @Field({ nullable: true })
+  @Column({nullable: true })
   description?: string;
 
   @Field()
-  creationDate: Date;
+  @Column({ type: 'timestamp' })
+  createdAt: Date;
 
-  @Field(type => [String])
-  ingredients: string[];
+  @Field(type => String)
+  @Column()
+  ingredients: string;
 }

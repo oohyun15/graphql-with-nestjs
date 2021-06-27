@@ -64,7 +64,8 @@ $ typeorm migration:run
   "password": "", // your password
   "database": "", // your db name
   "entities": [
-    "dist/**/*.entity.js"
+    "dist/**/*.entity.js",
+    "dist/**/*.model.js",
   ]
 }
 ```
@@ -79,7 +80,7 @@ query recipes ($skip: Int, $take: Int) {
         id
         title
         description
-        creationDate
+        createdAt
         ingredients
     }
 }
@@ -92,7 +93,7 @@ mutation addRecipe ($newRecipeData: NewRecipeInput!) {
         id
         title
         description
-        creationDate
+        createdAt
         ingredients
     }
 }
@@ -115,7 +116,7 @@ subscription recipeAdded {
         id
         title
         description
-        creationDate
+        createdAt
         ingredients
     }
 }

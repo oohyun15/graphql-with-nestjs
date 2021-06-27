@@ -26,9 +26,7 @@ export class RecipesResolver {
   }
 
   @Mutation(returns => Recipe)
-  async addRecipe(
-    @Args('newRecipeData') newRecipeData: NewRecipeInput,
-  ): Promise<Recipe> {
+  async addRecipe(@Args('newRecipeData') newRecipeData: NewRecipeInput,): Promise<Recipe> {
     const recipe = await this.recipesService.create(newRecipeData);
     pubSub.publish('recipeAdded', { recipeAdded: recipe });
     return recipe;
