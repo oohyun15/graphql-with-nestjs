@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { NewRecipeInput } from './dto/new-recipe.input';
 import { RecipesArgs } from './dto/recipes.args';
-import { Recipe } from './models/recipe.model';
+import { Recipe } from './recipe.entity';
 
 @Injectable()
 export class RecipesService {
