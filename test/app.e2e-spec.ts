@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -12,13 +12,39 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+      })
+    );
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  describe("/graphql (POST)", () => {
+    it('addUser', () => {
+      return request(app.getHttpServer())
+        .post("/graphql")
+        .send({
+          operationName: null,
+          variables: {
+            "createUserDto": {
+              "firstName": "Yonghyun",
+              "lastName": "Kim"
+            }
+          },
+          query: `
+          mutation addUser ($createUserDto: CreateUserDto!) {
+            addUser (createUserDto: $createUserDto) {
+                id
+                firstName
+                lastName
+                isActive
+            }
+        }`,
+        })
+        .expect(200);
+    });
   });
 });

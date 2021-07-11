@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DateScalar } from 'src/common/scalars/date.scalar';
+import { DateScalar } from '../common/scalars/date.scalar';
 import { Recipe } from './recipe.entity';
 import { RecipesResolver } from './recipes.resolver';
 import { RecipesService } from './recipes.service';
