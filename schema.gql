@@ -20,11 +20,24 @@ type User {
   isActive: Boolean!
 }
 
+type Webtoon {
+  id: ID!
+  title: String!
+  description: String
+  thumbanil: String
+  grade_age: Float!
+  week_day: Float!
+  state: Float!
+  startDate: Date!
+  endDate: Date!
+}
+
 type Query {
   user(id: String!): User!
   users: [User!]!
   recipe(id: String!): Recipe!
   recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
+  findWebtoon(id: String!): Webtoon!
 }
 
 type Mutation {
