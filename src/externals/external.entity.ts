@@ -1,5 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
 
+export interface IExternalable {
+  externals: External[];
+  id: number;
+}
+
 @Entity()
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class External {

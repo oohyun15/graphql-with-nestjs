@@ -1,9 +1,13 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { External, IExternalable } from "src/externals/external.entity";
 
 @Entity()
 @ObjectType()
-export class Webtoon {
+export class Webtoon implements IExternalable {
+  @OneToMany(() => External, (external: External) => external.internalId)
+  externals: External[];
+  
   @Field(type => ID)
   @PrimaryGeneratedColumn()
   id: number;
