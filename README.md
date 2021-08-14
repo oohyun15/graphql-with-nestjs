@@ -54,15 +54,15 @@ $ npm run start:prod
 $ typeorm migration:run
 ```
 
-# create ormconfig.json
+## create ormconfig.json
 ```json
 {
   "type": "mysql",
   "host": "localhost",
   "port": 3306,
-  "username": "", // your user name
+  "username": "root", // your user name
   "password": "", // your password
-  "database": "", // your db name
+  "database": "graphql-with-nestjs", // your db name
   "entities": [
     "dist/**/*.entity.js",
     "dist/**/*.model.js",
@@ -72,56 +72,6 @@ $ typeorm migration:run
 
 ## Graphql
 if you use graphql playground, [click here](http://localhost:3000/graphql)
-
-### Query
-```graphql
-query recipes ($skip: Int, $take: Int) {
-    recipes (skip: $skip, take: $take) {
-        id
-        title
-        description
-        createdAt
-        ingredients
-    }
-}
-```
-
-### Mutation
-```graphql
-mutation addRecipe ($newRecipeData: NewRecipeInput!) {
-    addRecipe (newRecipeData: $newRecipeData) {
-        id
-        title
-        description
-        createdAt
-        ingredients
-    }
-}
-{
-  "newRecipeData": {
-    "title": "",
-    "description": "",
-    "ingredients": [
-      ""
-    ]
-  }
-}
-
-```
-
-### Subscriptionn
-```graphql
-subscription recipeAdded {
-    recipeAdded {
-        id
-        title
-        description
-        createdAt
-        ingredients
-    }
-}
-```
-
 
 ## Test
 
