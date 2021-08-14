@@ -8,7 +8,7 @@ export class WebtoonsService {
   constructor(
     @InjectRepository(Webtoon)
     private readonly webtoonsRepository: Repository<Webtoon>,
-  ){}
+  ) {}
 
   async findOneById(id: string): Promise<Webtoon> {
     return this.webtoonsRepository.findOne(id);
@@ -20,6 +20,6 @@ export class WebtoonsService {
 
   async remove(id: string): Promise<DeleteResult> {
     const result = await this.webtoonsRepository.delete(id);
-    return result
+    return result;
   }
 }

@@ -1,14 +1,14 @@
-import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { External, IExternalable } from "src/externals/external.entity";
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { External, IExternalable } from 'src/externals/external.entity';
 
 @Entity()
 @ObjectType()
 export class Webtoon implements IExternalable {
   @OneToMany(() => External, (external: External) => external.internalId)
   externals: External[];
-  
-  @Field(type => ID)
+
+  @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,11 +17,11 @@ export class Webtoon implements IExternalable {
   title: string;
 
   @Field({ nullable: true })
-  @Column({nullable: true })
+  @Column({ nullable: true })
   description?: string;
 
   @Field({ nullable: true })
-  @Column({nullable: true })
+  @Column({ nullable: true })
   thumbanil?: string;
 
   @Field()

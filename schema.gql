@@ -2,17 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Recipe {
-  id: ID!
-  title: String!
-  description: String
-  createdAt: Date!
-  ingredients: String!
-}
-
-"""Date custom scalar type"""
-scalar Date
-
 type User {
   id: ID!
   firstName: String!
@@ -28,23 +17,24 @@ type Webtoon {
   grade_age: Float!
   week_day: Float!
   state: Float!
-  startDate: Date!
-  endDate: Date!
+  startDate: DateTime!
+  endDate: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Query {
   user(id: String!): User!
   users: [User!]!
-  recipe(id: String!): Recipe!
-  recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
   findWebtoon(id: String!): Webtoon!
 }
 
 type Mutation {
   addUser(createUserDto: CreateUserDto!): User!
   removeUser(id: String!): Boolean!
-  addRecipe(newRecipeData: NewRecipeInput!): Recipe!
-  removeRecipe(id: String!): Boolean!
 }
 
 input CreateUserDto {
@@ -52,13 +42,6 @@ input CreateUserDto {
   lastName: String!
 }
 
-input NewRecipeInput {
-  title: String!
-  description: String
-  ingredients: String!
-}
-
 type Subscription {
   userAdded: User!
-  recipeAdded: Recipe!
 }

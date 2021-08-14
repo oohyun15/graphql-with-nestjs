@@ -6,6 +6,6 @@ import { WebtoonsService } from './webtoons.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Webtoon])],
-  providers: [WebtoonsResolver, WebtoonsService]
+  providers: [WebtoonsResolver, WebtoonsService],
 })
 export class WebtoonsModule {}

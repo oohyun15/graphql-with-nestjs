@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GraphQLModule } from "@nestjs/graphql";
-import { RecipesModule } from './recipes/recipes.module';
+import { GraphQLModule } from '@nestjs/graphql';
 import { UsersModule } from './users/users.module';
 import { WebtoonsModule } from './webtoons/webtoons.module';
 import { ExternalsModule } from './externals/externals.module';
@@ -9,7 +8,6 @@ import { ExternalsModule } from './externals/externals.module';
 @Module({
   imports: [
     UsersModule,
-    RecipesModule,
     WebtoonsModule,
     ExternalsModule,
     TypeOrmModule.forRoot(),
@@ -17,8 +15,8 @@ import { ExternalsModule } from './externals/externals.module';
       installSubscriptionHandlers: true,
       autoSchemaFile: 'schema.gql',
       debug: false,
-      playground: false
+      playground: false,
     }),
   ],
 })
-export class AppModule { }
+export class AppModule {}

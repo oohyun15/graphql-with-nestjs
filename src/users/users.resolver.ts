@@ -7,35 +7,35 @@ import { UsersService } from './users.service';
 
 const pubSub = new PubSub();
 
-@Resolver(of => User)
+@Resolver(() => User)
 export class UsersResolver {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
-  @Query(returns => User)
+  @Query(() => User)
   async user(@Args('id') id: string): Promise<User> {
     const user = await this.usersService.findOne(id);
     if (!user) throw new NotFoundException(id);
     return user;
   }
 
-  @Query(returns => [User])
+  @Query(() => [User])
   users(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
-  @Mutation(returns => User)
-  async addUser(@Args('createUserDto') createUserDto :CreateUserDto) {
+  @Mutation(() => User)
+  async addUser(@Args('createUserDto') createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto);
     pubSub.publish('userAddedd', { userAdded: user });
     return user;
   }
 
-  @Mutation(returns => Boolean)
+  @Mutation(() => Boolean)
   async removeUser(@Args('id') id: string) {
     return (await this.usersService.remove(id)).affected;
   }
 
-  @Subscription(returnns => User)
+  @Subscription(() => User)
   userAdded() {
     return pubSub.asyncIterator('userAdded');
   }

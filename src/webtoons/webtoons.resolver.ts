@@ -6,14 +6,14 @@ import { WebtoonsService } from './webtoons.service';
 
 const pubSub = new PubSub();
 
-@Resolver(of => Webtoon)
+@Resolver(() => Webtoon)
 export class WebtoonsResolver {
-  constructor(private readonly webtoonsService: WebtoonsService) { }
+  constructor(private readonly webtoonsService: WebtoonsService) {}
 
-  @Query(returns => Webtoon)
+  @Query(() => Webtoon)
   async findWebtoon(@Args('id') id: string): Promise<Webtoon> {
     const webtoon = await this.webtoonsService.findOneById(id);
     if (!webtoon) throw new NotFoundException(id);
-    return webtoon
+    return webtoon;
   }
 }

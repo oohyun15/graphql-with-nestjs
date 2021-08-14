@@ -5,6 +5,6 @@ import { ExternalsService } from './externals.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([External])],
-  providers: [ExternalsService]
+  providers: [ExternalsService],
 })
 export class ExternalsModule {}
