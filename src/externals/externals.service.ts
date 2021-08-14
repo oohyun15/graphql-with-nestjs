@@ -3,8 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { External } from './external.entity';
 import { map } from 'rxjs/operators';
-import { AxiosAdapter } from 'axios';
-import { Observable } from 'apollo-link';
 
 @Injectable()
 export class ExternalsService {
