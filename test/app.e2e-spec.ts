@@ -17,22 +17,22 @@ describe('AppController (e2e)', () => {
         whitelist: true,
         forbidNonWhitelisted: true,
         transform: true,
-      })
+      }),
     );
     await app.init();
   });
 
-  describe("/graphql (POST)", () => {
+  describe('/graphql (POST)', () => {
     it('addUser', () => {
       return request(app.getHttpServer())
-        .post("/graphql")
+        .post('/graphql')
         .send({
           operationName: null,
           variables: {
-            "createUserDto": {
-              "firstName": "Yonghyun",
-              "lastName": "Kim"
-            }
+            createUserDto: {
+              firstName: 'Yonghyun',
+              lastName: 'Kim',
+            },
           },
           query: `
           mutation addUser ($createUserDto: CreateUserDto!) {

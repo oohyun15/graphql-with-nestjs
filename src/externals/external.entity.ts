@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  TableInheritance,
+} from 'typeorm';
 
 export interface IExternalable {
   externals: External[];
@@ -20,7 +25,7 @@ export class External {
   @Column()
   identifier: string;
 
-  @Column({ type: "text" })
+  @Column({ type: 'text' })
   data: string;
 
   @Column()

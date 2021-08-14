@@ -20,7 +20,6 @@ export class ExternalsService {
 
   async remove(id: string): Promise<DeleteResult> {
     const result = await this.externalsRepository.delete(id);
-    return result
+    return result;
   }
-
 }
