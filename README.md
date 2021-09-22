@@ -60,6 +60,12 @@ $ typeorm migration:run
 $ npm run console
 ```
 
+## Example in console
+```node
+app = app.get('ExternalsService);
+app.getDetailCrawlData();
+```
+
 ## Graphql
 If you use graphql playground, [click here](http://localhost:3000/graphql)
 

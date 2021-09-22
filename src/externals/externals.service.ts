@@ -2,7 +2,6 @@ import { Injectable, HttpService } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { External } from './external.entity';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ExternalsService {
@@ -25,12 +24,12 @@ export class ExternalsService {
     return result;
   }
 
-  // async getCrawlData() {
-  // }
-
   // KakaoWebtoon: 라지에르의 서
   async getDetailCrawlData() {
-    return this.http.get('https://gateway-kw.kakao.com/decorator/v1/decorator/contents/2507')
-      .pipe(map((response) => response.data));
+    const response = await this.http
+      .get('https://gateway-kw.kakao.com/decorator/v1/decorator/contents/2507')
+      .toPromise();
+    console.log(response.data);
+    return response.data;
   }
 }
