@@ -4,9 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { UsersModule } from './users/users.module';
 import { WebtoonsModule } from './webtoons/webtoons.module';
 import { ExternalsModule } from './externals/externals.module';
-import { User } from './users/user.entity';
-import { External } from './externals/external.entity';
-import { Webtoon } from './webtoons/webtoon.entity';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -20,7 +18,7 @@ import { Webtoon } from './webtoons/webtoon.entity';
       username: 'root',
       password: '',
       database: 'graphql-with-nestjs',
-      entities: [User, External, Webtoon],
+      entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       synchronize: false,
     }),
     GraphQLModule.forRoot({
