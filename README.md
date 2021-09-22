@@ -54,24 +54,9 @@ $ npm run start:prod
 $ typeorm migration:run
 ```
 
-## create ormconfig.json
-```json
-{
-  "type": "mysql",
-  "host": "localhost",
-  "port": 3306,
-  "username": "root", // your user name
-  "password": "", // your password
-  "database": "graphql-with-nestjs", // your db name
-  "entities": [
-    "dist/**/*.entity.js"
-  ]
-}
-```
-
 ## Console
-REPL console
 ```bash
+# REPL console
 $ npm run console
 ```
 
