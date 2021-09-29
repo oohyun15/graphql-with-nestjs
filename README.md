@@ -27,10 +27,11 @@
 GraphQL with NestJS
 
 ## Info
-- Language: Typescript
-- Framework: NestJS, apollo-server-fastify [doc](https://github.com/nestjs/nest/tree/master/sample/23-graphql-code-first)
+- Language: typescript
+- Framework: nestjs, [apollo](https://github.com/nestjs/nest/tree/master/sample/23-graphql-code-first)
 - Database: mysql
-- ORM: TypeORM [doc](https://github.com/nestjs/nest/tree/master/sample/05-sql-typeorm)
+- ORM: [typeorm](https://github.com/nestjs/nest/tree/master/sample/05-sql-typeorm)
+- Console: [REPL](https://gist.github.com/royshouvik/2cba46b56dd70529731a068eb82ca538#file-console-ts)
 
 ## Installation
 
@@ -60,7 +61,7 @@ $ typeorm migration:run
 $ npm run console
 ```
 
-## Example in console
+### Example
 ```node
 // user
 usersService = app.get('UsersService');
@@ -72,7 +73,7 @@ externalsService = app.get('ExternalsService');
 externalsService.getDetailCrawlData();
 ```
 
-## Graphql
+## GraphQL
 If you use graphql playground, [click here](http://localhost:3000/graphql)
 
 ## Test
