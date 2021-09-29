@@ -62,8 +62,14 @@ $ npm run console
 
 ## Example in console
 ```node
-app = app.get('ExternalsService);
-app.getDetailCrawlData();
+// user
+usersService = app.get('UsersService');
+usersService.create({firstName: "Harry", lastName: "Potter"})
+usersService.findAll().then((user) => console.log(user))
+
+// external
+externalsService = app.get('ExternalsService');
+externalsService.getDetailCrawlData();
 ```
 
 ## Graphql
