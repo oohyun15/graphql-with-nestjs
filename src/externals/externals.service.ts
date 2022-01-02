@@ -1,5 +1,6 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateExternalDto } from 'src/externals/dto/create-external.dto';
 import { DeleteResult, Repository } from 'typeorm';
 import { External } from './external.entity';
 
@@ -11,12 +12,16 @@ export class ExternalsService {
     private readonly http: HttpService,
   ) {}
 
-  async findOneById(id: string): Promise<External> {
+  async findOne(id: string): Promise<External> {
     return this.externalsRepository.findOne(id);
   }
 
   async findAll(): Promise<External[]> {
     return this.externalsRepository.find();
+  }
+
+  async create(createExternalDto: CreateExternalDto): Promise<void> {
+    await this.externalsRepository.save(createExternalDto);
   }
 
   async remove(id: string): Promise<DeleteResult> {
