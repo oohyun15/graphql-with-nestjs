@@ -4,23 +4,14 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { UsersModule } from './users/users.module';
 import { WebtoonsModule } from './webtoons/webtoons.module';
 import { ExternalsModule } from './externals/externals.module';
-import { join } from 'path';
+import * as connectionOptions from './ormconfig';
 
 @Module({
   imports: [
     UsersModule,
     WebtoonsModule,
     ExternalsModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'graphql-with-nestjs',
-      entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-      synchronize: false,
-    }),
+    TypeOrmModule.forRoot(connectionOptions),
     GraphQLModule.forRoot({
       installSubscriptionHandlers: true,
       autoSchemaFile: 'schema.gql',
