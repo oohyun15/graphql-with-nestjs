@@ -16,18 +16,18 @@ export class External {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   internalId: number;
 
-  @Column({ length: 100 })
+  @Column({ nullable: true, length: 100 })
   internalType: string;
 
   @Column()
   identifier: string;
 
-  @Column({ type: 'text' })
+  @Column({ nullable: true, type: 'text' })
   data: string;
 
-  @Column()
+  @Column({ nullable: true })
   status: number;
 }
