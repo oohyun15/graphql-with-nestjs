@@ -51,8 +51,8 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 
-# Database migration
-$ typeorm migration:run
+# sync database
+$ yarn typeorm schema:sync
 ```
 
 ## Console
