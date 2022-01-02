@@ -25,7 +25,7 @@ import { join } from 'path';
       installSubscriptionHandlers: true,
       autoSchemaFile: 'schema.gql',
       debug: false,
-      playground: false,
+      playground: true,
     }),
   ],
 })
