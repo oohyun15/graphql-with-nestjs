@@ -4,7 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { UsersModule } from './users/users.module';
 import { WebtoonsModule } from './webtoons/webtoons.module';
 import { ExternalsModule } from './externals/externals.module';
-import * as connectionOptions from './ormconfig';
+import connectionOptions from './ormconfig';
 
 @Module({
   imports: [
