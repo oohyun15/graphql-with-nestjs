@@ -37,7 +37,7 @@ const connectionOptions: ConnectionOptions = {
   dropSchema: false,
   // Run migrations automatically,
   // you can disable this if you prefer running migration manually.
-  migrationsRun: true,
+  migrationsRun: false,
   logging: ['warn', 'error'],
   logger: process.env.NODE_ENV === PROD_ENV ? 'file' : 'debug',
   migrations: [join(__dirname, 'migrations/*{.ts,.js}')],
