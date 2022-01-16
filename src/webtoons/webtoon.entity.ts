@@ -32,6 +32,9 @@ export class Webtoon {
   @Column({ nullable: true })
   weekDay: number;
 
+  @Column({ nullable: true })
+  thumbnail: string;
+
   @Column({ nullable: true, type: 'timestamp' })
   startDate: Date;
 
