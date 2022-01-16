@@ -53,7 +53,7 @@ export class KakaoService {
     return result;
   }
 
-  async extractAllIdentifiers() {
+  async extractAllIdentifier() {
     const links: string[] = [
       generalNewestLink,
       generalWeekdayLink,

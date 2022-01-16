@@ -73,6 +73,11 @@ usersService.findAll().then((user) => console.log(user))
 
 // kakao webtoon
 kakao = app.get('KakaoService);
+
+// extract all identifier
+kakao.extractAllIdentifier();
+
+// crawl metadata information
 kakao.create({identifier: '2507'}); // 라지에르의 서, id: 1
 kakao.crawl(1);
 ```
