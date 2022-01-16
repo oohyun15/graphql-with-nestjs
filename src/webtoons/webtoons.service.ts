@@ -10,7 +10,7 @@ export class WebtoonsService {
     private readonly webtoonsRepository: Repository<Webtoon>,
   ) {}
 
-  async findOneById(id: string): Promise<Webtoon> {
+  async find(id: string): Promise<Webtoon> {
     return this.webtoonsRepository.findOne(id);
   }
 

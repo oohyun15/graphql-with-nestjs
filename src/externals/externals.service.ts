@@ -12,7 +12,7 @@ export class ExternalsService {
     private readonly http: HttpService,
   ) {}
 
-  async findOne(id: string): Promise<External> {
+  async find(id: string): Promise<External> {
     return this.externalsRepository.findOne(id);
   }
 

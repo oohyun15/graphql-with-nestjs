@@ -12,7 +12,7 @@ export class WebtoonsResolver {
 
   @Query(() => Webtoon)
   async findWebtoon(@Args('id') id: string): Promise<Webtoon> {
-    const webtoon = await this.webtoonsService.findOneById(id);
+    const webtoon = await this.webtoonsService.find(id);
     if (!webtoon) throw new NotFoundException(id);
     return webtoon;
   }
