@@ -27,10 +27,12 @@ export class KakaosService {
   }
 
   async create(createWebtoonDto: CreateWebtoonDto): Promise<void> {
-    await this.kakaosRepository.save({
-      type: 'Kakao',
-      identifier: createWebtoonDto.identifier,
-    });
+    createWebtoonDto.type = 'Kakao';
+    await this.kakaosRepository.save(createWebtoonDto);
+  }
+
+  async update(kakao: Kakao): Promise<void> {
+    await this.kakaosRepository.save(kakao);
   }
 
   async remove(id: number): Promise<DeleteResult> {
