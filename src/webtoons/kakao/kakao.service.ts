@@ -1,6 +1,6 @@
 import { Injectable, HttpService, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, getConnection } from 'typeorm';
 import { CreateWebtoonDto } from '../dto/create-webtoon.dto';
 import { Kakao } from './kakao.entity';
 
@@ -30,18 +30,31 @@ export class KakaoService {
   }
 
   async findByIdentifier(identifier: string): Promise<Kakao> {
-    return this.kakaoRepository.findOne({
-      where: { identifier: identifier, type: 'Kakao' },
-    });
+    let dto = new CreateWebtoonDto();
+    dto.identifier = identifier;
+    dto.type = 'Kakao';
+    return this.kakaoRepository.findOne(dto);
   }
 
   async findAll(): Promise<Kakao[]> {
     return this.kakaoRepository.find();
   }
 
-  async create(createWebtoonDto: CreateWebtoonDto): Promise<void> {
-    createWebtoonDto.type = 'Kakao';
-    await this.kakaoRepository.save(createWebtoonDto);
+  async create(dto: CreateWebtoonDto): Promise<Kakao> {
+    return await this.kakaoRepository.save(dto);
+  }
+
+  async findOrCreateByIdentifier(identifier: string): Promise<Kakao> {
+    const webtoon = await this.findByIdentifier(identifier);
+    if (webtoon !== undefined) {
+      console.log('EXIST!', identifier);
+      return webtoon;
+    }
+    // console.log("NEW ONE!", identifier)
+    let dto = new CreateWebtoonDto();
+    dto.identifier = identifier;
+    dto.type = 'Kakao';
+    return this.create(dto);
   }
 
   async update(kakao: Kakao): Promise<void> {
@@ -62,33 +75,29 @@ export class KakaoService {
       novelWeekdayLink,
       novelCompletedLink,
     ];
+
+    // TODO: 각 link별 identifiers 다 모은 후에 uniq 해준 후 findOrCreateBy 써야할 듯. 현재는 db index uniq로 막혀져 있지만 성능상 좋지 않음
     links.forEach((link) => {
       this.extractIdentifier(link);
     });
   }
 
   async extractIdentifier(link: string) {
-    let count = 0;
-
     const resp = await this.http.get(link).toPromise();
-    let list;
+    let lists: any;
     if (resp.data.data.sections !== undefined) {
       // hash type
-      list = resp.data.data.sections.map((s) => s.cardGroups[0].cards).flat();
+      lists = resp.data.data.sections.map((s) => s.cardGroups[0].cards).flat();
     } else if (resp.data.data[0] !== undefined) {
       // array type
-      list = resp.data.data[0].cardGroups[0].cards;
+      lists = resp.data.data[0].cardGroups[0].cards;
     }
-    // return list;
-    const identifiers: string[] = list
-      .filter((e) => e.content.ageLimit != 19)
-      .map((e) => e.content.id.toString());
+    const identifiers: string[] = lists
+      .filter((e: any) => e.content.ageLimit != 19)
+      .map((e: any) => e.content.id.toString());
 
     identifiers.forEach((identifier) => {
-      let dto = new CreateWebtoonDto();
-      dto.type = 'Kakao';
-      dto.identifier = identifier;
-      this.create(dto);
+      this.findOrCreateByIdentifier(identifier); // TODO: await needed. duplicated identifier inserts.
     });
   }
 
