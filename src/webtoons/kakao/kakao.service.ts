@@ -35,7 +35,7 @@ export class KakaoService {
     await this.kakaoRepository.save(kakao);
   }
 
-  async remove(id: number): Promise<DeleteResult> {
+  async delete(id: number): Promise<DeleteResult> {
     const result = await this.kakaoRepository.delete(id);
     return result;
   }
