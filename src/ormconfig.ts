@@ -24,11 +24,6 @@ const config = {
   database: 'graphql-with-nestjs',
 };
 
-// FOR GOOGLE CLOUD SQL
-if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === PROD_ENV) {
-  config.host = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
-}
-
 const connectionOptions: ConnectionOptions = {
   type: 'mysql',
   host: config.host,
