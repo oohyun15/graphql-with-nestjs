@@ -17,7 +17,9 @@ export class KakaosService {
   }
 
   async findByIdentifier(identifier: string): Promise<Kakao> {
-    return this.kakaosRepository.findOne({ identifier: identifier })
+    return this.kakaosRepository.findOne({
+      where: { identifer: identifier, type: 'Kakao' },
+    });
   }
 
   async findAll(): Promise<Kakao[]> {
@@ -36,18 +38,18 @@ export class KakaosService {
     return result;
   }
 
-  async getDetailCrawlData(id: number) {
-    // find external
-    let external = await this.kakaosRepository.findOne(id);
+  async crawl(id: number) {
+    // find webtoon
+    let webtoon = await this.kakaosRepository.findOne(id);
 
     // crawl webtoon data
     const response = await this.http
       .get(
-        `https://gateway-kw.kakao.com/decorator/v1/decorator/contents/${external.identifier}`,
+        `https://gateway-kw.kakao.com/decorator/v1/decorator/contents/${webtoon.identifier}`,
       )
       .toPromise();
 
-    // save external
+    // save webtoon
     return response.data;
   }
 }

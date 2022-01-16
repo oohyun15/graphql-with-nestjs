@@ -17,7 +17,7 @@ export class Webtoon {
   @Column()
   identifier: string;
 
-  @Column()
+  @Column({ nullable: true })
   title: string;
 
   @Column({ nullable: true, type: 'text' })
