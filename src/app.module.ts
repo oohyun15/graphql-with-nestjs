@@ -2,14 +2,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { UsersModule } from './users/users.module';
-import { WebtoonsModule } from './webtoons/webtoons.module';
 import { ExternalsModule } from './externals/externals.module';
 import connectionOptions from './ormconfig';
 
 @Module({
   imports: [
     UsersModule,
-    WebtoonsModule,
     ExternalsModule,
     TypeOrmModule.forRoot(connectionOptions),
     GraphQLModule.forRoot({
