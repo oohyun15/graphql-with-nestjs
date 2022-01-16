@@ -1,12 +1,12 @@
 import { HttpModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WebtoonsService } from './webtoons.service';
-import { KakaosService } from './kakaos/kakaos.service';
+import { KakaoService } from './kakao/kakao.service';
 import { Webtoon } from './webtoon.entity';
-import { Kakao } from './kakaos/kakao.entity';
+import { Kakao } from './kakao/kakao.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Webtoon, Kakao]), HttpModule],
-  providers: [WebtoonsService, KakaosService],
+  providers: [WebtoonsService, KakaoService],
 })
 export class WebtoonsModule {}

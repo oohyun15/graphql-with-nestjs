@@ -72,7 +72,7 @@ usersService.create({firstName: "Harry", lastName: "Potter"})
 usersService.findAll().then((user) => console.log(user))
 
 // kakao webtoon
-kakao = app.get('KakaosService);
+kakao = app.get('KakaoService);
 kakao.create({identifier: '2507'}); // 라지에르의 서, id: 1
 kakao.crawl(1);
 ```
