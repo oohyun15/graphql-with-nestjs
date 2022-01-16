@@ -2,6 +2,7 @@ import { Injectable, HttpService, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, getConnection } from 'typeorm';
 import { CreateWebtoonDto } from '../dto/create-webtoon.dto';
+import { Webtoon } from '../webtoon.entity';
 import { Kakao } from './kakao.entity';
 
 const generalNewestLink: string =
@@ -57,8 +58,8 @@ export class KakaoService {
     return this.create(dto);
   }
 
-  async update(kakao: Kakao): Promise<void> {
-    await this.kakaoRepository.save(kakao);
+  async update(webtoon: Kakao): Promise<void> {
+    await this.kakaoRepository.save(webtoon);
   }
 
   async delete(id: number): Promise<DeleteResult> {
@@ -101,10 +102,14 @@ export class KakaoService {
     });
   }
 
-  async crawl(id: number) {
-    // find webtoon
-    let webtoon = await this.kakaoRepository.findOne(id);
+  async crawlAll() {
+    const webtoons = await this.findAll();
+    webtoons.forEach((webtoon: Kakao) => {
+      this.crawl(webtoon);
+    });
+  }
 
+  async crawl(webtoon: Kakao) {
     // crawl webtoon data
     const resp = await this.http
       .get(
