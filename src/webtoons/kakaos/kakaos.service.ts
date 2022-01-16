@@ -18,7 +18,7 @@ export class KakaosService {
 
   async findByIdentifier(identifier: string): Promise<Kakao> {
     return this.kakaosRepository.findOne({
-      where: { identifer: identifier, type: 'Kakao' },
+      where: { identifier: identifier, type: 'Kakao' },
     });
   }
 
