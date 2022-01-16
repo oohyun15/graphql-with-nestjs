@@ -6,16 +6,11 @@ import {
   Index,
 } from 'typeorm';
 
-export interface IExternalable {
-  externals: External[];
-  id: number;
-}
-
 @Entity()
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
 @Index(['type', 'identifier'], { unique: true })
 @Index(['internalId', 'internalType'])
-export class External {
+export class Webtoon {
   @PrimaryGeneratedColumn()
   id: number;
 

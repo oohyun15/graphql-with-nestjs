@@ -1,10 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class CreateExternalDto {
-  @Field(() => String)
-  type: string;
-
+export class CreateWebtoonDto {
   @Field(() => String)
   identifier: string;
+
+  @Field(() => String)
+  type: string;
 }

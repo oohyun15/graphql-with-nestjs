@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { UsersModule } from './users/users.module';
-import { ExternalsModule } from './externals/externals.module';
 import connectionOptions from './ormconfig';
+import { WebtoonsModule } from './webtoons/webtoons.module';
 
 @Module({
   imports: [
     UsersModule,
-    ExternalsModule,
+    WebtoonsModule,
     TypeOrmModule.forRoot(connectionOptions),
     GraphQLModule.forRoot({
       installSubscriptionHandlers: true,
