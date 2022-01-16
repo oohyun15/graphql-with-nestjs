@@ -27,6 +27,7 @@
 GraphQL with NestJS
 
 ## Info
+
 - Language: typescript
 - Framework: nestjs, [apollo](https://github.com/nestjs/nest/tree/master/sample/23-graphql-code-first)
 - Database: mysql
@@ -56,24 +57,28 @@ $ yarn typeorm schema:sync
 ```
 
 ## Console
+
 ```bash
 # REPL console
 $ npm run console
 ```
 
 ### Example
+
 ```node
 // user
 usersService = app.get('UsersService');
 usersService.create({firstName: "Harry", lastName: "Potter"})
 usersService.findAll().then((user) => console.log(user))
 
-// external
-externalsService = app.get('ExternalsService');
-externalsService.getDetailCrawlData();
+// kakao webtoon
+kakao = app.get('KakaosService);
+kakao.create({identifier: '2507'}); // 라지에르의 서, id: 1
+kakao.crawl(1);
 ```
 
 ## GraphQL
+
 If you use graphql playground, [click here](http://localhost:3000/graphql)
 
 ## Test
