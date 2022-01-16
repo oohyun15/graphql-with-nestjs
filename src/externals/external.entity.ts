@@ -3,6 +3,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   TableInheritance,
+  Index,
 } from 'typeorm';
 
 export interface IExternalable {
@@ -12,6 +13,8 @@ export interface IExternalable {
 
 @Entity()
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
+@Index(['type', 'identifier'], { unique: true })
+@Index(['internalId', 'internalType'])
 export class External {
   @PrimaryGeneratedColumn()
   id: number;
