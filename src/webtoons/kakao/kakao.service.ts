@@ -1,8 +1,7 @@
 import { Injectable, HttpService, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository, getConnection } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateWebtoonDto } from '../dto/create-webtoon.dto';
-import { Webtoon } from '../webtoon.entity';
 import { Kakao } from './kakao.entity';
 
 const generalNewestLink: string =
