@@ -9,27 +9,9 @@ type User {
   isActive: Boolean!
 }
 
-type Webtoon {
-  id: ID!
-  title: String!
-  description: String
-  thumbanil: String
-  grade_age: Float!
-  week_day: Float!
-  state: Float!
-  startDate: DateTime!
-  endDate: DateTime!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Query {
   user(id: String!): User!
   users: [User!]!
-  findWebtoon(id: String!): Webtoon!
 }
 
 type Mutation {
