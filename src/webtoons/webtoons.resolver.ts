@@ -53,8 +53,8 @@ export class WebtoonsResolver {
   @Mutation(() => Webtoon)
   async createWebtoonByIdentifier(
     @Args('createWebtoonDto') createWebtoonDto: CreateWebtoonDto,
-  ): Promise<Kakao | Webtoon> {
-    let webtoon: Kakao | Webtoon;
+  ): Promise<Webtoon> {
+    let webtoon: Webtoon;
     switch (createWebtoonDto.type) {
       case 'Kakao':
         webtoon = await this.kakaoService.findOrCreateByIdentifier(

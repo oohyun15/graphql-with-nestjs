@@ -41,8 +41,11 @@ export class KakaoService {
   }
 
   async create(dto: CreateWebtoonDto): Promise<Kakao> {
-    const webtoon = await this.kakaoRepository.save(dto);
-    if (!webtoon.title) this.crawl(webtoon); // 일단은 title이 없으면 크롤되지 않은거라고 간주
+    let webtoon = new Kakao();
+    webtoon.type = dto.type;
+    webtoon.identifier = dto.identifier;
+    this.crawl(webtoon);
+    webtoon = await this.kakaoRepository.save(webtoon);
     return webtoon;
   }
 
@@ -106,7 +109,9 @@ export class KakaoService {
   async crawlAll() {
     const webtoons = await this.findAll();
     webtoons.forEach((webtoon: Kakao) => {
-      this.crawl(webtoon);
+      this.crawl(webtoon).then((webtoon) => {
+        this.update(webtoon);
+      });
     });
   }
 
@@ -122,8 +127,7 @@ export class KakaoService {
     webtoon.description = resp.data.data.synopsis;
     webtoon.status = this.sanitizeStatus(resp.data.data.status); // TODO: profile api로 봐야 함
     webtoon.thumbnail = resp.data.data.sharingThumbnailImage + '.jpg';
-    // save webtoon
-    return this.kakaoRepository.save(webtoon);
+    return webtoon;
   }
 
   // private
