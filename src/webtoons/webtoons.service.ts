@@ -19,8 +19,8 @@ export class WebtoonsService {
     return this.webtoonsRepository.find();
   }
 
-  async create(createWebtoonDto: CreateWebtoonDto): Promise<void> {
-    await this.webtoonsRepository.save(createWebtoonDto);
+  async create(createWebtoonDto: CreateWebtoonDto): Promise<Webtoon> {
+    return await this.webtoonsRepository.save(createWebtoonDto);
   }
 
   async remove(id: number): Promise<DeleteResult> {
