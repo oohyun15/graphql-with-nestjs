@@ -42,8 +42,8 @@ type Query {
 type Mutation {
   addUser(createUserDto: CreateUserDto!): User!
   removeUser(id: String!): Boolean!
-  addWebtoon(createWebtoonDto: CreateWebtoonDto!): Webtoon!
-  removeWebtoon(id: Float!): Boolean!
+  createWebtoonByIdentifier(createWebtoonDto: CreateWebtoonDto!): Webtoon!
+  removeWebtoon(id: Int!): Boolean!
 }
 
 input CreateUserDto {
@@ -58,5 +58,5 @@ input CreateWebtoonDto {
 
 type Subscription {
   userAdded: User!
-  webtoonAdded: Webtoon!
+  webtoonCreated: Webtoon!
 }

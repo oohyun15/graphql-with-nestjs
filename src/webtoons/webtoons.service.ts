@@ -22,12 +22,18 @@ export class WebtoonsService {
     return this.webtoonsRepository.findOne(dto);
   }
 
+  async findOrCreateByIdentifier(dto: CreateWebtoonDto): Promise<Webtoon> {
+    const webtoon = await this.findByIdentifier(dto.type, dto.identifier);
+    if (webtoon !== undefined) return webtoon;
+    return this.create(dto);
+  }
+
   async findAll(): Promise<Webtoon[]> {
     return this.webtoonsRepository.find();
   }
 
-  async create(createWebtoonDto: CreateWebtoonDto): Promise<Webtoon> {
-    return await this.webtoonsRepository.save(createWebtoonDto);
+  async create(dto: CreateWebtoonDto): Promise<Webtoon> {
+    return await this.webtoonsRepository.save(dto);
   }
 
   async remove(id: number): Promise<DeleteResult> {

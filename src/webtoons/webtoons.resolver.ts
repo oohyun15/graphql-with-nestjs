@@ -9,6 +9,8 @@ import {
 } from '@nestjs/graphql';
 import { PubSub } from 'apollo-server-express';
 import { CreateWebtoonDto } from './dto/create-webtoon.dto';
+import { Kakao } from './kakao/kakao.entity';
+import { KakaoService } from './kakao/kakao.service';
 import { Webtoon } from './webtoon.entity';
 import { WebtoonsService } from './webtoons.service';
 
@@ -16,7 +18,10 @@ const pubSub = new PubSub();
 
 @Resolver(() => Webtoon)
 export class WebtoonsResolver {
-  constructor(private readonly webtoonsService: WebtoonsService) {}
+  constructor(
+    private readonly webtoonsService: WebtoonsService,
+    private readonly kakaoService: KakaoService,
+  ) {}
 
   @Query(() => Webtoon)
   async findWebtoon(
@@ -28,7 +33,7 @@ export class WebtoonsResolver {
   }
 
   @Query(() => [Webtoon])
-  findWebtoons(): Promise<Webtoon[]> {
+  async findWebtoons(): Promise<Webtoon[]> {
     return this.webtoonsService.findAll();
   }
 
@@ -46,21 +51,32 @@ export class WebtoonsResolver {
   }
 
   @Mutation(() => Webtoon)
-  async addWebtoon(
+  async createWebtoonByIdentifier(
     @Args('createWebtoonDto') createWebtoonDto: CreateWebtoonDto,
-  ) {
-    const webtoon = await this.webtoonsService.create(createWebtoonDto);
-    pubSub.publish('webtoonAdded', { webtoonAdded: webtoon });
+  ): Promise<Kakao | Webtoon> {
+    let webtoon: Kakao | Webtoon;
+    switch (createWebtoonDto.type) {
+      case 'Kakao':
+        webtoon = await this.kakaoService.findOrCreateByIdentifier(
+          createWebtoonDto.identifier,
+        );
+        break;
+      // case 'Naver':
+      //   break;
+      default:
+        throw new NotFoundException(createWebtoonDto);
+    }
+    pubSub.publish('webtoonCreated', { webtoonCreated: webtoon });
     return webtoon;
   }
 
   @Mutation(() => Boolean)
-  async removeWebtoon(@Args('id') id: number) {
+  async removeWebtoon(@Args('id', { type: () => Int }) id: number) {
     return (await this.webtoonsService.remove(id)).affected;
   }
 
   @Subscription(() => Webtoon)
-  webtoonAdded() {
-    return pubSub.asyncIterator('webtoonAdded');
+  webtoonCreated() {
+    return pubSub.asyncIterator('webtoonCreated');
   }
 }

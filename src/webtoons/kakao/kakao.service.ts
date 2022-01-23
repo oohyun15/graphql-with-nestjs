@@ -41,7 +41,9 @@ export class KakaoService {
   }
 
   async create(dto: CreateWebtoonDto): Promise<Kakao> {
-    return await this.kakaoRepository.save(dto);
+    const webtoon = await this.kakaoRepository.save(dto);
+    if (!webtoon.title) this.crawl(webtoon); // 일단은 title이 없으면 크롤되지 않은거라고 간주
+    return webtoon;
   }
 
   async findOrCreateByIdentifier(identifier: string): Promise<Kakao> {
