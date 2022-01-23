@@ -44,7 +44,7 @@ export class KakaoService {
     let webtoon = new Kakao();
     webtoon.type = dto.type;
     webtoon.identifier = dto.identifier;
-    this.crawl(webtoon);
+    webtoon = await this.crawl(webtoon);
     webtoon = await this.kakaoRepository.save(webtoon);
     return webtoon;
   }

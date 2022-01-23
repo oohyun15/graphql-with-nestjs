@@ -42,18 +42,13 @@ type Query {
 type Mutation {
   addUser(createUserDto: CreateUserDto!): User!
   removeUser(id: String!): Boolean!
-  createWebtoonByIdentifier(createWebtoonDto: CreateWebtoonDto!): Webtoon!
+  createWebtoonByIdentifier(identifier: String!, type: String!): Webtoon!
   removeWebtoon(id: Int!): Boolean!
 }
 
 input CreateUserDto {
   firstName: String!
   lastName: String!
-}
-
-input CreateWebtoonDto {
-  identifier: String!
-  type: String!
 }
 
 type Subscription {

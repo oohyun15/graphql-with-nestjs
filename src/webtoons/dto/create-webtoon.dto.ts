@@ -1,10 +1,13 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { ArgsType, Field } from '@nestjs/graphql';
+import { IsString } from 'class-validator';
 
-@InputType()
+@ArgsType()
 export class CreateWebtoonDto {
   @Field(() => String)
+  @IsString()
   identifier: string;
 
   @Field(() => String)
+  @IsString()
   type: string;
 }

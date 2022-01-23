@@ -9,7 +9,6 @@ import {
 } from '@nestjs/graphql';
 import { PubSub } from 'apollo-server-express';
 import { CreateWebtoonDto } from './dto/create-webtoon.dto';
-import { Kakao } from './kakao/kakao.entity';
 import { KakaoService } from './kakao/kakao.service';
 import { Webtoon } from './webtoon.entity';
 import { WebtoonsService } from './webtoons.service';
@@ -52,7 +51,7 @@ export class WebtoonsResolver {
 
   @Mutation(() => Webtoon)
   async createWebtoonByIdentifier(
-    @Args('createWebtoonDto') createWebtoonDto: CreateWebtoonDto,
+    @Args() createWebtoonDto: CreateWebtoonDto,
   ): Promise<Webtoon> {
     let webtoon: Webtoon;
     switch (createWebtoonDto.type) {
