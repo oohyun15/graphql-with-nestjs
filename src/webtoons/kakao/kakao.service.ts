@@ -109,15 +109,6 @@ export class KakaoService {
     return identifiers;
   }
 
-  async crawlAll() {
-    const webtoons = await this.findAll();
-    webtoons.forEach((webtoon: Kakao) => {
-      this.crawl(webtoon).then((webtoon) => {
-        this.update(webtoon);
-      });
-    });
-  }
-
   async crawl(webtoon: Kakao) {
     // crawl webtoon data
     const resp = await this.http
