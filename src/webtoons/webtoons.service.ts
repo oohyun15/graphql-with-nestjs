@@ -15,6 +15,13 @@ export class WebtoonsService {
     return this.webtoonsRepository.findOne(id);
   }
 
+  async findByIdentifier(type: string, identifier: string): Promise<Webtoon> {
+    let dto = new CreateWebtoonDto();
+    dto.type = type;
+    dto.identifier = identifier;
+    return this.webtoonsRepository.findOne(dto);
+  }
+
   async findAll(): Promise<Webtoon[]> {
     return this.webtoonsRepository.find();
   }

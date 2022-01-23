@@ -1,5 +1,12 @@
 import { NotFoundException } from '@nestjs/common';
-import { Args, Int, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
+import {
+  Args,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+  Subscription,
+} from '@nestjs/graphql';
 import { PubSub } from 'apollo-server-express';
 import { CreateWebtoonDto } from './dto/create-webtoon.dto';
 import { Webtoon } from './webtoon.entity';
@@ -12,19 +19,36 @@ export class WebtoonsResolver {
   constructor(private readonly webtoonsService: WebtoonsService) {}
 
   @Query(() => Webtoon)
-  async webtoon(@Args('id', { type: () => Int }) id: number): Promise<Webtoon> {
+  async findWebtoon(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<Webtoon> {
     const webtoon = await this.webtoonsService.find(id);
     if (!webtoon) throw new NotFoundException(id);
     return webtoon;
   }
 
   @Query(() => [Webtoon])
-  webtoons(): Promise<Webtoon[]> {
+  findWebtoons(): Promise<Webtoon[]> {
     return this.webtoonsService.findAll();
   }
 
+  @Query(() => Webtoon)
+  async findWebtoonByIdentifier(
+    @Args('type') type: string,
+    @Args('identifier') identifier: string,
+  ): Promise<Webtoon> {
+    const webtoon = await this.webtoonsService.findByIdentifier(
+      type,
+      identifier,
+    );
+    if (!webtoon) throw new NotFoundException({ type, identifier });
+    return webtoon;
+  }
+
   @Mutation(() => Webtoon)
-  async addWebtoon(@Args('createWebtoonDto') createWebtoonDto: CreateWebtoonDto) {
+  async addWebtoon(
+    @Args('createWebtoonDto') createWebtoonDto: CreateWebtoonDto,
+  ) {
     const webtoon = await this.webtoonsService.create(createWebtoonDto);
     pubSub.publish('webtoonAdded', { webtoonAdded: webtoon });
     return webtoon;

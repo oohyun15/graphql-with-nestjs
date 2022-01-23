@@ -19,43 +19,47 @@ export class Webtoon {
 
   @Field()
   @Column()
+  type: string;
+
+  @Field()
+  @Column()
   identifier: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  title: string;
+  title?: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true, type: 'text' })
-  description: string;
+  description?: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  status: number;
+  status?: number;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  gradeAge: number;
+  gradeAge?: number;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  weekDay: number;
+  weekDay?: number;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  thumbnail: string;
+  thumbnail?: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true, type: 'timestamp' })
-  startDate: Date;
+  startDate?: Date;
 
   @Field({ nullable: true })
   @Column({ nullable: true, type: 'timestamp' })
-  endDate: Date;
+  endDate?: Date;
 
   @Field({ nullable: true })
   @Column({ nullable: true, type: 'text' })
-  data: string;
+  data?: string;
 
   @Field()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
