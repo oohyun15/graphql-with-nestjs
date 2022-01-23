@@ -81,13 +81,18 @@ export class KakaoService {
       novelCompletedLink,
     ];
 
-    // TODO: 각 link별 identifiers 다 모은 후에 uniq 해준 후 findOrCreateBy 써야할 듯. 현재는 db index uniq로 막혀져 있지만 성능상 좋지 않음
-    links.forEach((link) => {
-      this.extractIdentifier(link);
+    let identifiers = [];
+    for await (const link of links) {
+      identifiers.push(await this.extractIdentifier(link));
+    }
+    identifiers = [...new Set(identifiers.flat())];
+    console.log('identifier.length:' + identifiers.length);
+    identifiers.forEach((identifier) => {
+      this.findOrCreateByIdentifier(identifier);
     });
   }
 
-  async extractIdentifier(link: string) {
+  async extractIdentifier(link: string): Promise<string[]> {
     const resp = await this.http.get(link).toPromise();
     let lists: any;
     if (resp.data.data.sections !== undefined) {
@@ -101,9 +106,7 @@ export class KakaoService {
       .filter((e: any) => e.content.ageLimit != 19)
       .map((e: any) => e.content.id.toString());
 
-    identifiers.forEach((identifier) => {
-      this.findOrCreateByIdentifier(identifier); // TODO: await needed. duplicated identifier inserts.
-    });
+    return identifiers;
   }
 
   async crawlAll() {

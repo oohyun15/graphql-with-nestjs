@@ -76,9 +76,6 @@ kakao = app.get('KakaoService');
 
 // extract all identifier
 kakao.extractAllIdentifier();
-
-// crawl metadata
-kakao.crawlAll();
 ```
 
 ## GraphQL
