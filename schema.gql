@@ -40,15 +40,10 @@ type Query {
 }
 
 type Mutation {
-  addUser(createUserDto: CreateUserDto!): User!
+  addUser(firstName: String!, lastName: String!): User!
   removeUser(id: String!): Boolean!
   createWebtoonByIdentifier(identifier: String!, type: String!): Webtoon!
   removeWebtoon(id: Int!): Boolean!
-}
-
-input CreateUserDto {
-  firstName: String!
-  lastName: String!
 }
 
 type Subscription {

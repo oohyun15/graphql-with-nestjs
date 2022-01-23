@@ -24,7 +24,7 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  async addUser(@Args('createUserDto') createUserDto: CreateUserDto) {
+  async addUser(@Args() createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto);
     pubSub.publish('userAddedd', { userAdded: user });
     return user;
