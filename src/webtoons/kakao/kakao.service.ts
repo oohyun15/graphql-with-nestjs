@@ -53,7 +53,6 @@ export class KakaoService {
   async findOrCreateByIdentifier(identifier: string): Promise<Kakao> {
     const webtoon = await this.findByIdentifier(identifier);
     if (webtoon !== undefined) {
-      console.log('EXIST!', identifier);
       return webtoon;
     }
     // console.log("NEW ONE!", identifier)
@@ -114,13 +113,16 @@ export class KakaoService {
     // crawl webtoon data
     const detail = await this.crawlDetail(webtoon.identifier);
     const profile = await this.crawlProfile(webtoon.identifier);
-    // const episode = await this.crawlEpisode(webtoon.identifier);
+    const episode = await this.crawlEpisode(webtoon.identifier);
 
     webtoon.title = detail['title'];
     webtoon.description = detail['description'];
     webtoon.thumbnail = detail['thumbnail'] || detail['cover'];
     webtoon.status = profile['status'];
     webtoon.weekDay = this.encodeWeekDay(profile['weekDay']);
+    webtoon.startDate = episode['startDate'];
+    webtoon.endDate = episode['endDate'];
+    webtoon.gradeAge = episode['gradeAge'];
     return webtoon;
   }
 
@@ -193,18 +195,18 @@ export class KakaoService {
     return ret;
   }
 
-  private async crawlEpisode(identifier: string): Promise<object> {
+  private async crawlEpisode(identifier: string) {
     const ret: object = {};
     const resp = await this.http
-      .get(this.apiEpisodeLink(identifier))
+      .get(this.apiEpisodeLink(identifier, 0, 999), {
+        headers: { 'accept-language': 'ko' },
+      })
       .toPromise();
 
-    ret['title'] = resp.data.data.title;
-    ret['seoId'] = resp.data.data.seoId;
-    ret['genre'] = [resp.data.data.genre];
-    ret['description'] = resp.data.data.synopsis;
-    ret['thumbnail'] = resp.data.data.sharingThumbnailImage + '.jpg';
-    ret['cover'] = resp.data.data.backgroundImage + '.jpg';
+    const episodes = resp.data.data.episodes;
+    ret['startDate'] = resp.data.data.first.serialStartDateTime;
+    ret['endDate'] = resp.data.data.episodes[0].serialStartDateTime;
+    ret['gradeAge'] = resp.data.data.first.ageLimit;
     return ret;
   }
 
