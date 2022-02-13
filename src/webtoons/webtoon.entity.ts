@@ -8,6 +8,18 @@ import {
   BeforeUpdate,
 } from 'typeorm';
 
+export enum WebtoonWeekDay {
+  mon = 1,
+  tue = 2,
+  wed = 4,
+  thu = 8,
+  fri = 16,
+  sat = 32,
+  sun = 64,
+  ten = 128,
+  etc = 256,
+}
+
 export enum WebtoonStatus {
   UNKNOWN = 10,
   CONTUNUE = 20,

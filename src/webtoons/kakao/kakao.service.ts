@@ -2,6 +2,7 @@ import { Injectable, HttpService, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateWebtoonDto } from '../dto/create-webtoon.dto';
+import { WebtoonStatus, WebtoonWeekDay } from '../webtoon.entity';
 import { Kakao } from './kakao.entity';
 
 const generalNewestLink: string =
@@ -113,14 +114,34 @@ export class KakaoService {
     // crawl webtoon data
     const detail = await this.crawlDetail(webtoon.identifier);
     const profile = await this.crawlProfile(webtoon.identifier);
-    const episode = await this.crawlEpisode(webtoon.identifier);
+    // const episode = await this.crawlEpisode(webtoon.identifier);
 
     webtoon.title = detail['title'];
     webtoon.description = detail['description'];
     webtoon.thumbnail = detail['thumbnail'] || detail['cover'];
     webtoon.status = profile['status'];
-    webtoon.weekDay = profile['weekDay'];
+    webtoon.weekDay = this.encodeWeekDay(profile['weekDay']);
     return webtoon;
+  }
+
+  // TODO: nestjs에서 bitmask 필드 사용할 수 있는지 확인하기
+  encodeWeekDay(array: string[]): number {
+    let ret: number = 0;
+    array.forEach((wd) => {
+      ret += WebtoonWeekDay[wd];
+    });
+    return ret;
+  }
+
+  decodeWeekDay(value: number): string[] {
+    const ret: string[] = [];
+    const nums = Object.values(WebtoonWeekDay);
+    nums.forEach((num: number) => {
+      if (value & num) {
+        ret.push(WebtoonWeekDay[num]);
+      }
+    });
+    return ret;
   }
 
   // private
@@ -156,7 +177,7 @@ export class KakaoService {
     return ret;
   }
 
-  async crawlProfile(identifier: string): Promise<object> {
+  private async crawlProfile(identifier: string): Promise<object> {
     const ret: object = {};
     const resp = await this.http
       .get(this.apiProfileLink(identifier))
@@ -169,7 +190,7 @@ export class KakaoService {
       .filter((badge) => badge.type === 'WEEKDAYS')
       .map((weekday) => weekday.title);
     ret['keyword'] = resp.data.data.seoKeywords;
-    return resp;
+    return ret;
   }
 
   private async crawlEpisode(identifier: string): Promise<object> {
@@ -190,23 +211,18 @@ export class KakaoService {
   private sanitizeStatus(status: string): number {
     switch (status) {
       case 'EPISODES_PUBLISHING':
-        'continue';
-        break;
+        return WebtoonStatus.CONTUNUE;
       case 'END_OF_SEASON':
       case 'SEASON_COMPLETED':
-        'season_finish';
-        break;
+        return WebtoonStatus.SEASON_FINISH;
       case 'EPISODES_NOT_PUBLISHING':
-        'closed';
-        break;
+        return WebtoonStatus.CLOSED;
       case 'COMPLETED':
-        'finish';
-        break;
+        return WebtoonStatus.FINISH;
       case 'STOP_SELLING':
         throw new NotFoundException('No service available.');
       default:
         throw new NotFoundException(`Unknown status: ${status}`);
     }
-    return 0; // TODO: set status to enum field
   }
 }
