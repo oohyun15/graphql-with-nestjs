@@ -126,6 +126,18 @@ export class KakaoService {
 
   // private
 
+  private apiDetailLink(identifier: number): string {
+    return `https://gateway-kw.kakao.com/decorator/v1/decorator/contents/${identifier}`
+  }
+
+  private apiProfileLink(identifier: number): string {
+    return `https://gateway-kw.kakao.com/decorator/v1/decorator/contents/${identifier}/profile`
+  }
+
+  private apiEpisodeLink(identifier: number, offset: number = 0, limit: number = 30): string {
+    return `https://gateway-kw.kakao.com/episode/v1/views/content-home/contents/${identifier}/episodes?sort=-NO&offset=${offset}&limit=${limit}`
+  }
+
   private sanitizeStatus(status: string): number {
     switch (status) {
       case 'EPISODES_PUBLISHING':
