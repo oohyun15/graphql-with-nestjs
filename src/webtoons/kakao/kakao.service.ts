@@ -113,7 +113,7 @@ export class KakaoService {
     // crawl webtoon data
     const resp = await this.http
       .get(
-        `https://gateway-kw.kakao.com/decorator/v1/decorator/contents/${webtoon.identifier}`,
+        this.apiDetailLink(webtoon.identifier),
       )
       .toPromise();
 
@@ -126,15 +126,15 @@ export class KakaoService {
 
   // private
 
-  private apiDetailLink(identifier: number): string {
+  private apiDetailLink(identifier: string): string {
     return `https://gateway-kw.kakao.com/decorator/v1/decorator/contents/${identifier}`
   }
 
-  private apiProfileLink(identifier: number): string {
+  private apiProfileLink(identifier: string): string {
     return `https://gateway-kw.kakao.com/decorator/v1/decorator/contents/${identifier}/profile`
   }
 
-  private apiEpisodeLink(identifier: number, offset: number = 0, limit: number = 30): string {
+  private apiEpisodeLink(identifier: string, offset: number = 0, limit: number = 30): string {
     return `https://gateway-kw.kakao.com/episode/v1/views/content-home/contents/${identifier}/episodes?sort=-NO&offset=${offset}&limit=${limit}`
   }
 
