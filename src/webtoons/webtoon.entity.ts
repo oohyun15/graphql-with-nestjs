@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
 import {
   Column,
   Entity,
@@ -7,6 +7,15 @@ import {
   Index,
   BeforeUpdate,
 } from 'typeorm';
+
+export enum WebtoonStatus {
+  UNKNOWN = 10,
+  CONTUNUE = 20,
+  FINISH = 30,
+  CLOSED = 40,
+  SEASON_FINISH = 50,
+}
+registerEnumType(WebtoonStatus, { name: 'WebtoonStatus' });
 
 @Entity()
 @ObjectType()
@@ -33,9 +42,9 @@ export class Webtoon {
   @Column({ nullable: true, type: 'text' })
   description?: string;
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  status?: number;
+  @Field(() => WebtoonStatus, { defaultValue: WebtoonStatus.UNKNOWN })
+  @Column({ nullable: true, type: 'enum', enum: WebtoonStatus })
+  status?: WebtoonStatus;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
