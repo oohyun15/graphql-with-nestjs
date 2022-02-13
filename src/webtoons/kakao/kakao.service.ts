@@ -111,20 +111,15 @@ export class KakaoService {
 
   async crawl(webtoon: Kakao) {
     // crawl webtoon data
-    const detail = await this.getDetailCrawlData(webtoon.identifier);
-    console.log(detail);
-
-    // const profile = await this.http
-    //   .get(this.apiProfileLink(webtoon.identifier))
-    //   .toPromise();
-
-    // const episode = await this.http
-    //   .get(this.apiEpisodeLink(webtoon.identifier))
-    //   .toPromise();
+    const detail = await this.crawlDetail(webtoon.identifier);
+    const profile = await this.crawlProfile(webtoon.identifier);
+    const episode = await this.crawlEpisode(webtoon.identifier);
 
     webtoon.title = detail['title'];
     webtoon.description = detail['description'];
     webtoon.thumbnail = detail['thumbnail'] || detail['cover'];
+    webtoon.status = profile['status'];
+    webtoon.weekDay = profile['weekDay'];
     return webtoon;
   }
 
@@ -146,10 +141,41 @@ export class KakaoService {
     return `https://gateway-kw.kakao.com/episode/v1/views/content-home/contents/${identifier}/episodes?sort=-NO&offset=${offset}&limit=${limit}`;
   }
 
-  private async getDetailCrawlData(identifier: string): Promise<object> {
+  private async crawlDetail(identifier: string): Promise<object> {
     const ret: object = {};
     const resp = await this.http
       .get(this.apiDetailLink(identifier))
+      .toPromise();
+
+    ret['title'] = resp.data.data.title;
+    ret['seoId'] = resp.data.data.seoId;
+    ret['genre'] = [resp.data.data.genre];
+    ret['description'] = resp.data.data.synopsis;
+    ret['thumbnail'] = resp.data.data.sharingThumbnailImage + '.jpg';
+    ret['cover'] = resp.data.data.backgroundImage + '.jpg';
+    return ret;
+  }
+
+  async crawlProfile(identifier: string): Promise<object> {
+    const ret: object = {};
+    const resp = await this.http
+      .get(this.apiProfileLink(identifier))
+      .toPromise();
+
+    const badges = resp.data.data.badges;
+    const status = badges.filter((badge) => badge.type === 'STATUS')[0];
+    ret['status'] = this.sanitizeStatus(status.title);
+    ret['weekDay'] = badges
+      .filter((badge) => badge.type === 'WEEKDAYS')
+      .map((weekday) => weekday.title);
+    ret['keyword'] = resp.data.data.seoKeywords;
+    return resp;
+  }
+
+  private async crawlEpisode(identifier: string): Promise<object> {
+    const ret: object = {};
+    const resp = await this.http
+      .get(this.apiEpisodeLink(identifier))
       .toPromise();
 
     ret['title'] = resp.data.data.title;
@@ -174,7 +200,6 @@ export class KakaoService {
         'closed';
         break;
       case 'COMPLETED':
-      case 'SELLING':
         'finish';
         break;
       case 'STOP_SELLING':
