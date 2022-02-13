@@ -111,31 +111,54 @@ export class KakaoService {
 
   async crawl(webtoon: Kakao) {
     // crawl webtoon data
-    const resp = await this.http
-      .get(
-        this.apiDetailLink(webtoon.identifier),
-      )
-      .toPromise();
+    const detail = await this.getDetailCrawlData(webtoon.identifier);
+    console.log(detail);
 
-    webtoon.title = resp.data.data.title;
-    webtoon.description = resp.data.data.synopsis;
-    webtoon.status = this.sanitizeStatus(resp.data.data.status); // TODO: profile api로 봐야 함
-    webtoon.thumbnail = resp.data.data.sharingThumbnailImage + '.jpg';
+    // const profile = await this.http
+    //   .get(this.apiProfileLink(webtoon.identifier))
+    //   .toPromise();
+
+    // const episode = await this.http
+    //   .get(this.apiEpisodeLink(webtoon.identifier))
+    //   .toPromise();
+
+    webtoon.title = detail['title'];
+    webtoon.description = detail['description'];
+    webtoon.thumbnail = detail['thumbnail'] || detail['cover'];
     return webtoon;
   }
 
   // private
 
   private apiDetailLink(identifier: string): string {
-    return `https://gateway-kw.kakao.com/decorator/v1/decorator/contents/${identifier}`
+    return `https://gateway-kw.kakao.com/decorator/v1/decorator/contents/${identifier}`;
   }
 
   private apiProfileLink(identifier: string): string {
-    return `https://gateway-kw.kakao.com/decorator/v1/decorator/contents/${identifier}/profile`
+    return `https://gateway-kw.kakao.com/decorator/v1/decorator/contents/${identifier}/profile`;
   }
 
-  private apiEpisodeLink(identifier: string, offset: number = 0, limit: number = 30): string {
-    return `https://gateway-kw.kakao.com/episode/v1/views/content-home/contents/${identifier}/episodes?sort=-NO&offset=${offset}&limit=${limit}`
+  private apiEpisodeLink(
+    identifier: string,
+    offset: number = 0,
+    limit: number = 30,
+  ): string {
+    return `https://gateway-kw.kakao.com/episode/v1/views/content-home/contents/${identifier}/episodes?sort=-NO&offset=${offset}&limit=${limit}`;
+  }
+
+  private async getDetailCrawlData(identifier: string): Promise<object> {
+    const ret: object = {};
+    const resp = await this.http
+      .get(this.apiDetailLink(identifier))
+      .toPromise();
+
+    ret['title'] = resp.data.data.title;
+    ret['seoId'] = resp.data.data.seoId;
+    ret['genre'] = [resp.data.data.genre];
+    ret['description'] = resp.data.data.synopsis;
+    ret['thumbnail'] = resp.data.data.sharingThumbnailImage + '.jpg';
+    ret['cover'] = resp.data.data.backgroundImage + '.jpg';
+    return ret;
   }
 
   private sanitizeStatus(status: string): number {
