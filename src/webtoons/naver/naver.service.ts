@@ -2,15 +2,18 @@ import { Injectable, HttpService } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateWebtoonDto } from '../dto/create-webtoon.dto';
+import { WebtoonsService } from '../webtoons.service';
 import { Naver } from './naver.entity';
 
 @Injectable()
-export class NaverService {
+export class NaverService extends WebtoonsService {
   constructor(
     @InjectRepository(Naver)
     private readonly naverRepository: Repository<Naver>,
     private readonly http: HttpService,
-  ) {}
+  ) {
+    super(naverRepository);
+  }
 
   async find(id: number): Promise<Naver> {
     return this.naverRepository.findOne(id);
