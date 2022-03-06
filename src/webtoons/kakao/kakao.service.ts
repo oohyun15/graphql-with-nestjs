@@ -2,7 +2,8 @@ import { Injectable, HttpService, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateWebtoonDto } from '../dto/create-webtoon.dto';
-import { WebtoonStatus, WebtoonWeekDay } from '../webtoon.entity';
+import { WebtoonStatus } from '../webtoon.entity';
+import { WebtoonsService } from '../webtoons.service';
 import { Kakao } from './kakao.entity';
 
 const generalNewestLink: string =
@@ -19,12 +20,14 @@ const novelCompletedLink: string =
   'https://gateway-kw.kakao.com/section/v1/sections?placement=novel_completed';
 
 @Injectable()
-export class KakaoService {
+export class KakaoService extends WebtoonsService {
   constructor(
     @InjectRepository(Kakao)
     private readonly kakaoRepository: Repository<Kakao>,
     private readonly http: HttpService,
-  ) {}
+  ) {
+    super(kakaoRepository);
+  }
 
   async find(id: number): Promise<Kakao> {
     return this.kakaoRepository.findOne(id);
@@ -124,26 +127,6 @@ export class KakaoService {
     webtoon.endDate = episode['endDate'];
     webtoon.gradeAge = episode['gradeAge'];
     return webtoon;
-  }
-
-  // TODO: nestjs에서 bitmask 필드 사용할 수 있는지 확인하기
-  encodeWeekDay(array: string[]): number {
-    let ret: number = 0;
-    array.forEach((wd) => {
-      ret += WebtoonWeekDay[wd];
-    });
-    return ret;
-  }
-
-  decodeWeekDay(value: number): string[] {
-    const ret: string[] = [];
-    const nums = Object.values(WebtoonWeekDay);
-    nums.forEach((num: number) => {
-      if (value & num) {
-        ret.push(WebtoonWeekDay[num]);
-      }
-    });
-    return ret;
   }
 
   // private
