@@ -1,7 +1,13 @@
 ## Webtoon Crawler
+### crawled platform
+- [Kakao](https://webtoon.kakao.com/)
+### TBD
+- [Naver](https://comic.naver.com/index)
+- [Kakaopage](https://page.kakao.com/main)
+- [Lezhin Comics](https://www.lezhin.com/ko)
 
-### How to run
-
+## How to run
+### Server
 ```bash
 $ npm install
 
@@ -9,16 +15,16 @@ $ npm run build
 
 $ yarn typeorm schema:sync
 
-$ npm run start
+$ npm run start # GraphQL playground
 ```
 
-### Crawl webtoon metadata
-
+### console
 ```bash
 # REPL console
 $ npm run console
 ```
 
+### crawl in console
 ```node
 // kakao webtoon
 kakao = app.get('KakaoService');
@@ -27,12 +33,7 @@ kakao = app.get('KakaoService');
 kakao.extractAllIdentifier();
 ```
 
-### GraphQL
-
-If you use graphql playground, [click here](http://localhost:3000/graphql)
-
-### Test
-
+### test
 ```bash
 # unit tests
 $ npm run test
