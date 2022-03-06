@@ -7,7 +7,7 @@
 - [Lezhin Comics](https://www.lezhin.com/ko)
 
 ## How to run
-### Server
+### server
 ```bash
 $ npm install
 
